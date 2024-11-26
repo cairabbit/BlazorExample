@@ -1,0 +1,44 @@
+﻿@page "/clients"
+
+@using Common
+@inject IDataService<Client> dataService
+@inject IStringLocalizer<Index> L
+@inject DrawerService drawerService
+@inject DialogService dialogService
+
+@code {
+  private IEnumerable<int> pageItemsSource { get; set; } = [10, 20, 50, 100];
+  private ClientFilter filters { get; set; } = new();
+}
+
+<PageTitle>Clients</PageTitle>
+
+<Table TItem="Client"
+       IsPagination="true" PageItemsSource="@pageItemsSource" DataService="@dataService" CustomerSearchModel="filters"
+       IsStriped="true" IsBordered="false" IsMultipleSelect="true"
+       ShowToolbar="true" ShowSearch="true" ShowExtendButtons="true" ShowSkeleton="true" CollapsedTopSearch="true"
+       ShowEmpty="true" SearchMode="SearchMode.Popup" SearchDialogSize="Size.Medium" EditMode="EditMode.Drawer"
+       ShowAddButton="true" ShowExtendEditButtonCallback="@(o => true)" ShowExtendDeleteButtonCallback="@(o => true)">
+  <TableColumns>
+    <TableColumn @bind-Field="@context.ClientId" Align="Alignment.Center" Sortable="true"></TableColumn>
+    <TableColumn @bind-Field="@context.Name" Align="Alignment.Center" Sortable="true"></TableColumn>
+  </TableColumns>
+  <CustomerSearchTemplate>
+    @if (context is ClientFilter filter)
+    {
+      <Row ItemsPerRow="ItemsPerRow.One" RowType="RowType.Inline">
+        <BootstrapInput ShowLabel="true" @bind-Value="@filter.Name" />
+      </Row>
+    }
+  </CustomerSearchTemplate>
+  <EditTemplate>
+    <EditItemPanel Model="@context" NewTitle="@L.GetString("New Client")" EditTitle="@L.GetString("Edit Client")">
+      <EditItemTemplate Context="it">
+        <Row ItemsPerRow="ItemsPerRow.One" RowType="RowType.Inline">
+          <BootstrapInput @bind-Value="@it.ClientId" />
+          <BootstrapInput @bind-Value="@it.Name" />
+        </Row>
+      </EditItemTemplate>
+    </EditItemPanel>
+  </EditTemplate>
+</Table>

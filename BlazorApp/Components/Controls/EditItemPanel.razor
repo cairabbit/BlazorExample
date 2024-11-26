@@ -1,0 +1,58 @@
+﻿@typeparam TItem
+@inject IStringLocalizer<EditItemPanel<TItem>> L
+
+@code {
+  [CascadingParameter]
+  public ItemChangedType ChangedType { get; set; }
+  [Parameter]
+  [EditorRequired]
+  public required TItem Model { get; set; }
+  [Parameter]
+  public string? NewTitle { get; set; }
+  [Parameter]
+  public string? EditTitle { get; set; }
+  [Parameter]
+  public RenderFragment<TItem>? NewItemTemplate { get; set; }
+  [Parameter]
+  [EditorRequired]
+  public required RenderFragment<TItem> EditItemTemplate { get; set; }
+}
+
+<Panel>
+  <Header>
+    <div>
+      @if (ChangedType == ItemChangedType.Add)
+      {
+        <h3>@(NewTitle ?? L.GetString("New Item"))</h3>
+      }
+      else
+      {
+        <h3>@(EditTitle ?? L.GetString("Edit Item"))</h3>
+      }
+    </div>
+    <div class="flex-fill"></div>
+    <div>
+      <DialogCloseButton Icon="@Icons.Regular().Times" ButtonStyle="ButtonStyle.Round" Size="Size.Small" Text=""></DialogCloseButton>
+    </div>
+  </Header>
+  <Body>
+    <ValidateForm Model="@Model">
+      @if (ChangedType == ItemChangedType.Add)
+      {
+        if (NewItemTemplate != null)
+        {
+          @NewItemTemplate(Model)
+        }
+        else
+        {
+          @EditItemTemplate(Model)
+        }
+      }
+      else
+      {
+        @EditItemTemplate(Model)
+      }
+    </ValidateForm>
+  </Body>
+</Panel>
+

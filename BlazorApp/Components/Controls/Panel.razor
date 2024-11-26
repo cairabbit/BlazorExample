@@ -1,0 +1,80 @@
+﻿@code {
+  [Parameter]
+  public RenderFragment? Header { get; set; }
+  [Parameter]
+  public RenderFragment? Footer { get; set; }
+  [Parameter]
+  [EditorRequired]
+  public required RenderFragment Body { get; set; }
+  [Parameter]
+  public string? HeaderText { get; set; }
+  [Parameter]
+  public string? PanelClass { get; set; }
+  [Parameter]
+  public string? HeaderClass { get; set; }
+  [Parameter]
+  public string? BodyClass { get; set; }
+  [Parameter]
+  public string? FooterClass { get; set; }
+  [Parameter]
+  public bool ShowCloseButton { get; set; } = false;
+  [Parameter]
+  public Color CloseButtonColor { get; set; } = Color.None;
+  [Parameter]
+  public string CloseButtonIcon { get; set; } = @Icons.Regular().Times;
+  [Parameter]
+  public bool FixedHeaderAndFooter { get; set; } = false;
+  [Parameter]
+  public string? Width { get; set; }
+  [Parameter]
+  public string? Height { get; set; }
+  [Parameter]
+  public EventCallback<MouseEventArgs> CloseCallback { get; set; }
+
+  protected override void OnParametersSet()
+  {
+    base.OnParametersSet();
+    if (FixedHeaderAndFooter)
+      AppendClass("fixed");
+    if (!string.IsNullOrEmpty(PanelClass))
+      AppendClass(PanelClass);
+    if (!string.IsNullOrEmpty(Width))
+    {
+      AppendStyle("width", Width);
+    }
+    if (!string.IsNullOrEmpty(Height))
+    {
+      AppendStyle("height", Height);
+    }
+  }
+}
+
+<div @attributes="@AdditionalAttributes" class="panel @ClassString">
+  @if (Header != null || !string.IsNullOrEmpty(HeaderText))
+  {
+    <div class="card-header @HeaderClass">
+      @if (!string.IsNullOrEmpty(HeaderText))
+      {
+        <span class="card-title">@HeaderText</span>
+      }
+      @if (Header != null)
+      {
+        @Header
+      }
+      @if (ShowCloseButton)
+      {
+        <div class="flex-fill"></div>
+        <Button Color="CloseButtonColor" ButtonStyle="ButtonStyle.Round" Size="Size.Small" Icon="@CloseButtonIcon" OnClick="CloseCallback" aria-label="Search" />
+      }
+    </div>
+  }
+  <div class="card-body @BodyClass">
+    @Body
+  </div>
+  @if (Footer != null)
+  {
+    <div class="card-footer @FooterClass">
+      @Footer
+    </div>
+  }
+</div>
