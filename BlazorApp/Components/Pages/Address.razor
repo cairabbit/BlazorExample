@@ -1,0 +1,37 @@
+﻿@page "/address"
+@inject IStringLocalizer<Address> L
+@inject IJSRuntime JSRuntime
+
+@code {
+  private IJSObjectReference? Module;
+  private DotNetObjectReference<Address>? Interop;
+  private IEnumerable<string> Items = [];
+
+  protected override async Task OnAfterRenderAsync(bool firstRender)
+  {
+    await base.OnAfterRenderAsync(firstRender);
+    if (firstRender)
+    {
+      Interop = DotNetObjectReference.Create(this);
+      Module = await JSRuntime.InvokeAsync<IJSObjectReference>("import", "./address.js");
+      await Module.InvokeVoidAsync("initializeAddressAutocomplete", "autocomplete-address_input1", Interop);
+      await Module.InvokeVoidAsync("initializeAddressAutocomplete", "autocomplete-address_input2", Interop);
+    }
+  }
+
+  [JSInvokable]
+  public void PopupAddresses(string[] addresses)
+  {
+    Items = addresses;
+    StateHasChanged();
+  }
+
+  private async Task<IEnumerable<string>> OnAddressFiltering(string value)
+  {
+    return await Task.FromResult(Items);
+  }
+}
+<p>This is not working</p>
+<AutoComplete id="autocomplete-address_input1" Items="@Items" DisplayText="@L.GetString("Address")" />
+<p>This is working with OnCustomFilter</p>
+<AutoComplete id="autocomplete-address_input2" Items="@Items" DisplayText="@L.GetString("Address")" OnCustomFilter="OnAddressFiltering" />
