@@ -22,6 +22,7 @@
   <TableColumns>
     <TableColumn @bind-Field="@context.ClientId" Align="Alignment.Center" Sortable="true"></TableColumn>
     <TableColumn @bind-Field="@context.Name" Align="Alignment.Center" Sortable="true"></TableColumn>
+    <TableColumn @bind-Field="@context.Type" Align="Alignment.Center" Sortable="true"></TableColumn>
   </TableColumns>
   <CustomerSearchTemplate>
     @if (context is ClientFilter filter)
@@ -37,6 +38,7 @@
         <Row ItemsPerRow="ItemsPerRow.One" RowType="RowType.Inline">
           <BootstrapInput @bind-Value="@it.ClientId" />
           <BootstrapInput @bind-Value="@it.Name" />
+          <MultiSelect @bind-Value="it.Type" />
         </Row>
       </EditItemTemplate>
     </EditItemPanel>

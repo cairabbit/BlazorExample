@@ -9,17 +9,23 @@ public class ClientUIDataService : IDataService<Client>
 
   public ClientUIDataService()
   {
-    clients.Add(new Client { ClientId = 1, Name = "Client 1" });
-    clients.Add(new Client { ClientId = 2, Name = "Client 2" });
-    clients.Add(new Client { ClientId = 3, Name = "Client 3" });
-    clients.Add(new Client { ClientId = 4, Name = "Client 4" });
-    clients.Add(new Client { ClientId = 5, Name = "Client 5" });
-    clients.Add(new Client { ClientId = 6, Name = "Client 6" });
-    clients.Add(new Client { ClientId = 7, Name = "Client 7" });
-    clients.Add(new Client { ClientId = 8, Name = "Client 8" });
-    clients.Add(new Client { ClientId = 9, Name = "Client 9" });
-    clients.Add(new Client { ClientId = 10, Name = "Client 10" });
+    clients.Add(new Client { ClientId = 1, Name = "Client 1", Type = ClientType.Data | ClientType.WebApi });
+    clients.Add(new Client { ClientId = 2, Name = "Client 2", Type = ClientType.Data });
+    clients.Add(new Client { ClientId = 3, Name = "Client 3", Type = ClientType.Data | ClientType.Wcf });
+    clients.Add(new Client { ClientId = 4, Name = "Client 4", Type = ClientType.WebApi });
+    clients.Add(new Client { ClientId = 5, Name = "Client 5", Type = ClientType.Wcf });
+    clients.Add(new Client { ClientId = 6, Name = "Client 6", Type = ClientType.Grpc });
+    clients.Add(new Client { ClientId = 7, Name = "Client 7", Type = ClientType.Web | ClientType.WebApi });
+    clients.Add(new Client { ClientId = 8, Name = "Client 8", Type = ClientType.WebApi });
+    clients.Add(new Client { ClientId = 9, Name = "Client 9", Type = ClientType.Data | ClientType.WebApi });
+    clients.Add(new Client { ClientId = 10, Name = "Client 10", Type = ClientType.Web | ClientType.WebApi | ClientType.Grpc });
   }
+
+  public List<Client> GetAll()
+  {
+    return clients;
+  }
+
   public Task<bool> AddAsync(Client model)
   {
     clients.Add(model);

@@ -11,6 +11,7 @@ builder.Services.AddRazorComponents()
 
 builder.Services.AddBootstrapBlazor();
 builder.Services.AddScoped<IDataService<Client>, ClientUIDataService>();
+builder.Services.AddScoped<ClientUIDataService>();
 
 var app = builder.Build();
 

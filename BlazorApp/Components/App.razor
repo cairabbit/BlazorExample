@@ -6,9 +6,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <base href="/" />
   <link rel="stylesheet" href="@Assets["lib/bootstrap/dist/css/bootstrap.min.css"]" />
-  <Link Href="_content/BootstrapBlazor.FontAwesome/css/font-awesome.min.css" />
-  <Link Href="_content/BootstrapBlazor/css/bootstrap.blazor.bundle.min.css" />
-  <Link Href="_content/BootstrapBlazor/css/motronic.min.css" />
+  <link rel="stylesheet" href="@Assets["_content/BootstrapBlazor.FontAwesome/css/font-awesome.min.css"]" />
+  <link rel="stylesheet" href="@Assets["_content/BootstrapBlazor.BootstrapIcon/css/bootstrap.min.css"]" />
+  <link rel="stylesheet" href="@Assets["_content/BootstrapBlazor/css/bootstrap.blazor.bundle.min.css"]" />
+  <link rel="stylesheet" href="@Assets["_content/BootstrapBlazor/css/motronic.min.css"]" />
   <link rel="stylesheet" href="@Assets["app.css"]" />
   <link rel="stylesheet" href="@Assets["BlazorApp.styles.css"]" />
   <ImportMap />
@@ -18,6 +19,7 @@
 
 <body>
   <Routes @rendermode="InteractiveServer" />
+  <script src="_content/BootstrapBlazor/js/bootstrap.blazor.bundle.min.js"></script>
   <script src="_framework/blazor.web.js"></script>
 </body>
 
