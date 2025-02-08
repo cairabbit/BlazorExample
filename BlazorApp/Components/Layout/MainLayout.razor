@@ -1,4 +1,30 @@
 ﻿@inherits LayoutComponentBase
+@inject NavigationManager NavigationManager
+
+@code {
+  private List<SelectedItem> items = [];
+  private string? selectedItem;
+  private string? previousUrl;
+  protected override async Task OnInitializedAsync()
+  {
+    await base.OnInitializedAsync();
+    items = [new SelectedItem("", "Root"), new SelectedItem("counter", "Counter"), new SelectedItem("others", "Others")];
+  }
+  private void SelectValueFromUrl()
+  {
+    var path = NavigationManager.ToBaseRelativePath(NavigationManager.Uri);
+    selectedItem = path;
+    StateHasChanged();
+  }
+
+  private Task OnItemChanged(string val)
+  {
+    selectedItem = val;
+    return Task.CompletedTask;
+  }
+
+}
+
 <BootstrapBlazorRoot>
 
   <div class="page">
@@ -8,6 +34,11 @@
 
     <main>
       <div class="top-row px-4">
+
+        <Select class="d-none d-lg-block" TValue="String" Items="@items" Value="selectedItem" ValueChanged="OnItemChanged"></Select>
+
+        <span>selected item:</span><span>@selectedItem</span>
+
         <a href="https://learn.microsoft.com/aspnet/core/" target="_blank">About</a>
       </div>
 

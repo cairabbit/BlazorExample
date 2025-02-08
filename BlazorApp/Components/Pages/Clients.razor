@@ -9,6 +9,10 @@
 @code {
   private IEnumerable<int> pageItemsSource { get; set; } = [10, 20, 50, 100];
   private ClientFilter filters { get; set; } = new();
+  private Task OnSaveChanged(string content)
+  {
+    return Task.CompletedTask;
+  }
 }
 
 <PageTitle>Clients</PageTitle>
@@ -39,6 +43,8 @@
           <BootstrapInput @bind-Value="@it.ClientId" />
           <BootstrapInput @bind-Value="@it.Name" />
           <MultiSelect @bind-Value="it.Type" />
+          <Editor IsEditor="true" @bind-Value="it.Details" />
+          <SvgEditor OnSaveChanged="@OnSaveChanged"></SvgEditor>
         </Row>
       </EditItemTemplate>
     </EditItemPanel>

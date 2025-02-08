@@ -5,6 +5,7 @@ public class Client
   public required int ClientId { get; set; }
   public required string Name { get; set; }
   public required ClientType Type { get; set; }
+  public string? Details { get; set; }
 }
 
 [Flags]
